@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniqCare | Premium Botanical Skincare</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    brand: {
+                        50: '#fdfbf9',   // Off-white cream
+                        100: '#f6f1ec',  // Soft linen
+                        200: '#eaddd3',  // Light beige
+                        300: '#d9c2b3',  // Nude accent
+                        400: '#c5a593',  // Muted rose
+                        500: '#ab816c',  // Primary terracotta/earth
+                        600: '#956b57',  // Deep terracotta
+                        700: '#7d5747',
+                        800: '#684a3d',
+                        900: '#3d2b23',  // Dark rich earthy brown
+                    },
+                    sage: {
+                        50: '#f4f6f4',
+                        100: '#e3e8e3',
+                        500: '#7a967c',  // Subtle natural leaf green
+                        900: '#2d3b2e',
+                    }
+                },
+                fontFamily: {
+                    serif: ['Playfair Display', 'serif'],
+                    sans: ['Inter', 'sans-serif'],
+                },
+                animation: {
+                    'fade-in': 'fadeIn 0.4s ease-out forwards',
+                    'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                },
+                keyframes: {
+                    fadeIn: {
+                        '0%': { opacity: '0' },
+                        '100%': { opacity: '1' },
+                    },
+                    slideUp: {
+                        '0%': { transform: 'translateY(16px)', opacity: '0' },
+                        '100%': { transform: 'translateY(0)', opacity: '1' },
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+<!-- Google Fonts & FontAwesome Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Custom CSS Styles -->
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .font-serif-title {
+        font-family: 'Playfair Display', serif;
+    }
+    .glass-nav {
+        background: rgba(253, 251, 249, 0.90);
+        backdrop-filter: blur(16px);
+    }
+    .dark .glass-nav {
+        background: rgba(18, 18, 20, 0.90);
+        backdrop-filter: blur(16px);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #d9c2b3;
+        border-radius: 999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+        background: #553d33;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ab816c;
+    }
+
+    /* Image hover zooms */
+    .product-img-wrapper img {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover .product-img-wrapper img {
+        transform: scale(1.06);
+    }
+
+    /* Hide scrollbars for slick navigation horizontal scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
+
+
+<!-- Sticky Navigation Bar -->
+<header class="sticky top-0 z-40 glass-nav border-b border-brand-100 dark:border-zinc-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          
+            <!-- Logo -->
+            <a href="#home" class="flex items-center gap-2 group">
+                <span class="text-2xl sm:text-3xl font-serif-title font-semibold text-brand-900 dark:text-brand-100 tracking-wide">
+                    UniqCare<span class="text-brand-500">.</span>
+                </span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-10 font-medium text-xs tracking-widest uppercase text-zinc-600 dark:text-zinc-400">
+                <a href="#home" class="hover:text-brand-600 dark:hover:text-brand-200 transition-colors">Home</a>
+                <a href="#products" class="hover:text-brand-600 dark:hover:text-brand-200 transition-colors">Product</a>
+                <a href="#quiz" class="hover:text-brand-600 dark:hover:text-brand-200 transition-colors">Routine Quiz</a>
+                <a href="#about" class="hover:text-brand-600 dark:hover:text-brand-200 transition-colors">About Us</a>
+                <a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-200 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action Controls (Theme, Cart, Mobile Menu) -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Theme Toggle -->
+                <button id="themeBtn" onclick="toggleTheme()" aria-label="Toggle Dark Mode" class="p-2 text-zinc-600 dark:text-zinc-300 hover:text-brand-600 dark:hover:text-brand-200 transition-colors rounded-full">
+                    <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
+                </button>
+
+                <!-- Cart Drawer Trigger Button -->
+                <button id="cartBtn" onclick="toggleCartDrawer(true)" class="relative p-2.5 bg-brand-100 dark:bg-zinc-800 text-brand-900 dark:text-zinc-100 rounded-full hover:bg-brand-200 dark:hover:bg-zinc-700 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-brand-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm hidden">0</span>
+                </button>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Menu" class="md:hidden p-2 text-zinc-800 dark:text-zinc-200 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu Dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-brand-100 dark:border-zinc-800 bg-brand-50/95 dark:bg-zinc-900/95 backdrop-blur-md px-6 py-6 space-y-4 shadow-xl">
+        <a href="#home" onclick="toggleMobileMenu()" class="block text-lg font-serif-title text-zinc-800 dark:text-zinc-200 hover:text-brand-500">Home</a>
+        <a href="#products" onclick="toggleMobileMenu()" class="block text-lg font-serif-title text-zinc-800 dark:text-zinc-200 hover:text-brand-500">Shop Collection</a>
+        <a href="#quiz" onclick="toggleMobileMenu()" class="block text-lg font-serif-title text-zinc-800 dark:text-zinc-200 hover:text-brand-500">Find Your Routine</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="block text-lg font-serif-title text-zinc-800 dark:text-zinc-200 hover:text-brand-500">About</a>
+        <a href="#contact" onclick="toggleMobileMenu()" class="block text-lg font-serif-title text-zinc-800 dark:text-zinc-200 hover:text-brand-500">Contact Us</a>
+    </div>
+</header>
+
+<main class="flex-grow">
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-10 pb-20 lg:pt-16 lg:pb-28 overflow-hidden">
+        <!-- Subtle Decorative Background Glow -->
+        <div class="absolute top-0 right-0 -mr-24 -mt-24 w-[500px] h-[500px] rounded-full bg-brand-200/40 dark:bg-brand-900/20 blur-3xl -z-10 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-[400px] h-[400px] rounded-full bg-sage-100/50 dark:bg-sage-900/10 blur-3xl -z-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              
+                <!-- Hero Content -->
+                <div class="text-center lg:text-left space-y-8 order-2 lg:order-1">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 border border-brand-200 dark:border-zinc-700 rounded-full text-xs font-medium text-brand-700 dark:text-brand-300 tracking-widest uppercase bg-white/50 dark:bg-zinc-900/50">
+                        <i class="fa-solid fa-leaf text-sage-500 text-xs"></i> Clean & Pure Botanical Formulas
+                    </span>
+                  
+                    <h1 class="text-4xl sm:text-6xl lg:text-6xl font-serif-title text-zinc-900 dark:text-white leading-[1.15] font-normal">
+                        Reveal your natural, <br class="hidden sm:block">
+                        <span class="italic text-brand-500 font-serif-title">radiant glow.</span>
+                    </h1>
+                  
+                    <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
+                        Formulated with potent botanical extracts and clinical actives to restore your skin's innate balance. Cruelty-free, vegan, and mindfully crafted.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#products" class="w-full sm:w-auto px-8 py-4 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs font-semibold uppercase tracking-widest transition-all text-center rounded-sm shadow-md">
+                            Shop Collection
+                        </a>
+                        <a href="#quiz" class="w-full sm:w-auto px-8 py-4 border border-brand-300 dark:border-zinc-700 hover:border-brand-500 dark:hover:border-brand-400 text-brand-900 dark:text-zinc-100 text-xs font-semibold uppercase tracking-widest transition-all text-center rounded-sm">
+                            Find My Routine
+                        </a>
+                    </div>
+
+                    <!-- Highlights Badge Row -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-brand-200/60 dark:border-zinc-800/80 max-w-md mx-auto lg:mx-0 text-center lg:text-left">
+                        <div>
+                            <p class="font-serif-title text-lg text-zinc-900 dark:text-white font-medium">100%</p>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400">Vegan Ingredients</p>
+                        </div>
+                        <div>
+                            <p class="font-serif-title text-lg text-zinc-900 dark:text-white font-medium">Derm</p>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400">Tested & Approved</p>
+                        </div>
+                        <div>
+                            <p class="font-serif-title text-lg text-zinc-900 dark:text-white font-medium">Cruelty</p>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400">Free Certified</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual -->
+                <div class="relative order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <div class="relative w-full max-w-md aspect-[4/5] rounded-t-full rounded-b-md overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800">
+                        <img src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800"
+                             onerror="this.src='https://placehold.co/800x1000/eaddd3/553d33?text=UniqCare+Skincare'"
+                             alt="UniqCare Minimalist Skincare"
+                             class="w-full h-full object-cover object-center">
+                    </div>
+                  
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-5 -left-2 sm:left-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md p-5 shadow-xl border border-brand-100 dark:border-zinc-800 max-w-[220px] rounded-lg hidden sm:block">
+                        <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="font-serif-title text-sm text-zinc-900 dark:text-white font-medium leading-snug">"My skin has never felt so calm and hydrated."</p>
+                        <p class="text-[11px] text-zinc-400 mt-1.5 uppercase tracking-wider">— Elena M., Verified Buyer</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Shop Section -->
+    <section id="products" class="py-20 bg-white dark:bg-zinc-900/60 border-y border-brand-100 dark:border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div class="max-w-xl space-y-3">
+                    <span class="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-300 font-semibold">Skincare Essentials</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif-title text-zinc-900 dark:text-white">Curated Collections</h2>
+                    <p class="text-zinc-500 dark:text-zinc-400 font-light text-sm">Formulated for efficacy, purity, and sensory joy. Target your exact skin needs.</p>
+                </div>
+              
+                <!-- Search & Sort Controls -->
+                <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-xs"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search formulas..."
+                               class="w-full pl-9 pr-4 py-2.5 bg-brand-50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs rounded-sm transition-colors text-zinc-800 dark:text-zinc-200">
+                    </div>
+                    <select id="sortSelect" onchange="handleSort()" class="px-4 py-2.5 bg-brand-50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs text-zinc-700 dark:text-zinc-300 rounded-sm transition-colors">
+                        <option value="featured">Sort by: Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Pills Filter Bar -->
+            <div class="flex items-center gap-3 overflow-x-auto pb-6 mb-10 no-scrollbar border-b border-brand-100 dark:border-zinc-800" id="categoryFilters">
+                <button onclick="setCategory('All')" class="cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-brand-900 bg-brand-900 text-white dark:bg-white dark:text-brand-900 dark:border-white" data-cat="All">All</button>
+                <button onclick="setCategory('Serums')" class="cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-500" data-cat="Serums">Serums & Oils</button>
+                <button onclick="setCategory('Moisturizers')" class="cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-500" data-cat="Moisturizers">Moisturizers</button>
+                <button onclick="setCategory('Cleansers')" class="cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-500" data-cat="Cleansers">Cleansers</button>
+                <button onclick="setCategory('Treatments')" class="cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-500" data-cat="Treatments">Treatments & Masks</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- JavaScript dynamically populates products here -->
+            </div>
+
+            <!-- Empty Search Results State -->
+            <div id="noResultsState" class="hidden text-center py-20 bg-brand-50/50 dark:bg-zinc-950/50 rounded-lg my-8">
+                <i class="fa-solid fa-leaf text-brand-300 dark:text-zinc-700 text-4xl mb-3"></i>
+                <p class="text-lg font-serif-title text-zinc-900 dark:text-white mb-1">No matching formulas found</p>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-5">Try modifying your search or clearing active filters.</p>
+                <button onclick="resetFilters()" class="px-6 py-2.5 bg-brand-900 dark:bg-brand-100 text-white dark:text-brand-900 text-xs uppercase tracking-wider font-semibold rounded-sm">Clear All Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skin Routine Generator Quiz -->
+    <section id="quiz" class="py-20 bg-sage-50/50 dark:bg-zinc-900/30">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs uppercase tracking-widest text-sage-500 font-semibold">Personalized Beauty</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title text-zinc-900 dark:text-white mt-1 mb-3">Find Your Ideal Ritual</h2>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm font-light">Select your primary skincare focus below to receive a curated 3-step regimen tailored for your skin's exact needs.</p>
+            </div>
+
+            <!-- Quiz Goal Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+                <button onclick="selectSkinGoal('hydration')" class="quiz-btn group p-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-brand-500 transition-all text-center rounded-lg shadow-sm" data-goal="hydration">
+                    <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-500 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-droplet text-lg"></i>
+                    </div>
+                    <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100">Deep Hydration</h3>
+                    <p class="text-[11px] text-zinc-400 mt-1">Plump & replenish moisture</p>
+                </button>
+
+                <button onclick="selectSkinGoal('brightening')" class="quiz-btn group p-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-brand-500 transition-all text-center rounded-lg shadow-sm" data-goal="brightening">
+                    <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-sun text-lg"></i>
+                    </div>
+                    <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100">Radiance & Glow</h3>
+                    <p class="text-[11px] text-zinc-400 mt-1">Even tone & illuminate</p>
+                </button>
+
+                <button onclick="selectSkinGoal('antiaging')" class="quiz-btn group p-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-brand-500 transition-all text-center rounded-lg shadow-sm" data-goal="antiaging">
+                    <div class="w-12 h-12 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-400 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-sparkles text-lg"></i>
+                    </div>
+                    <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100">Firm & Restore</h3>
+                    <p class="text-[11px] text-zinc-400 mt-1">Smooth fine lines</p>
+                </button>
+
+                <button onclick="selectSkinGoal('calming')" class="quiz-btn group p-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-brand-500 transition-all text-center rounded-lg shadow-sm" data-goal="calming">
+                    <div class="w-12 h-12 rounded-full bg-sage-100 dark:bg-sage-900/40 text-sage-500 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-leaf text-lg"></i>
+                    </div>
+                    <h3 class="text-sm font-medium text-zinc-900 dark:text-zinc-100">Soothe & Calm</h3>
+                    <p class="text-[11px] text-zinc-400 mt-1">Reduce redness & irritation</p>
+                </button>
+            </div>
+
+            <!-- Interactive Quiz Result Banner -->
+            <div id="quizResult" class="hidden animate-fade-in p-6 sm:p-8 bg-white dark:bg-zinc-950 shadow-xl border border-brand-200 dark:border-zinc-800 rounded-lg relative">
+                <button onclick="closeQuizResult()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 p-2">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+                <div id="quizContent" class="space-y-6">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="about" class="py-20 bg-white dark:bg-zinc-900/60 border-t border-brand-100 dark:border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              
+                <div class="relative">
+                    <div class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-square rounded-lg overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=1000"
+                             onerror="this.src='https://placehold.co/1000x1000/eaddd3/553d33?text=UniqCare+Philosophy'"
+                             alt="UniqCare Natural Ingredients"
+                             class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <span class="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-300 font-semibold">Our Philosophy</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif-title text-zinc-900 dark:text-white leading-tight">
+                        Skincare rooted in botanical purity & <span class="italic text-brand-500">transparency</span>.
+                    </h2>
+                  
+                    <div class="space-y-4 text-zinc-600 dark:text-zinc-400 font-light text-sm leading-relaxed">
+                        <p>
+                            UniqCare was born out of a desire for simplicity in a world cluttered with complex chemical routines. We believe that caring for your skin should be a grounding, restorative ritual rather than a chore.
+                        </p>
+                        <p>
+                            Every formula in our line is created from sustainably harvested botanicals, cold-pressed plant oils, and clinically backed active ingredients. We never compromise on safety, quality, or ethics.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4 border-t border-brand-100 dark:border-zinc-800">
+                        <div>
+                            <p class="text-2xl font-serif-title text-brand-900 dark:text-brand-200">100%</p>
+                            <p class="text-xs text-zinc-500 uppercase tracking-wider mt-1">Cruelty Free</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-serif-title text-brand-900 dark:text-brand-200">0%</p>
+                            <p class="text-xs text-zinc-500 uppercase tracking-wider mt-1">Synthetic Fragrance</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-serif-title text-brand-900 dark:text-brand-200">Recyclable</p>
+                            <p class="text-xs text-zinc-500 uppercase tracking-wider mt-1">Glass Packaging</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-brand-50 dark:bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-300 font-semibold">Get In Touch</span>
+                <h2 class="text-3xl font-serif-title text-zinc-900 dark:text-white mt-1 mb-2">We're Here to Help</h2>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm font-light">Questions regarding formulations, order status, or skincare recommendations?</p>
+            </div>
+
+            <!-- Info Cards Grid (Email & Location) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-brand-100 dark:border-zinc-800 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand-100 dark:bg-zinc-800 text-brand-600 dark:text-brand-300 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-envelope text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif-title font-medium text-base text-zinc-900 dark:text-white mb-1">Direct Email</h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">Reach out to our customer care team anytime.</p>
+                        <a href="mailto:barnedoreniel2@gmail.com" class="text-xs font-semibold text-brand-600 dark:text-brand-300 hover:underline flex items-center gap-1.5">
+                            barnedoreniel2@gmail.com
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-brand-100 dark:border-zinc-800 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-sage-100 dark:bg-sage-900/50 text-sage-500 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-location-dot text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif-title font-medium text-base text-zinc-900 dark:text-white mb-1">Our Location</h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">National Christian Life College</p>
+                        <span class="text-xs text-zinc-600 dark:text-zinc-300 font-medium">Philippines</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <!-- Contact Form -->
+                <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-6 bg-white dark:bg-zinc-900 p-8 sm:p-10 rounded-xl shadow-sm border border-brand-100 dark:border-zinc-800 h-full">
+                    <h3 class="font-serif-title text-xl text-zinc-900 dark:text-white mb-4">Send Us a Message</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Your Name</label>
+                            <input type="text" id="contactName" required placeholder="Jane Doe"
+                                   class="w-full px-4 py-3 bg-brand-50/50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs rounded-sm transition-colors text-zinc-800 dark:text-zinc-200">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Email Address</label>
+                            <input type="email" id="contactEmail" required placeholder="jane@example.com"
+                                   class="w-full px-4 py-3 bg-brand-50/50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs rounded-sm transition-colors text-zinc-800 dark:text-zinc-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Topic</label>
+                        <select id="contactSubject" class="w-full px-4 py-3 bg-brand-50/50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs rounded-sm text-zinc-700 dark:text-zinc-300 transition-colors">
+                            <option value="Consultation">Skincare Advice & Consultation</option>
+                            <option value="Order">Order & Shipping Support</option>
+                            <option value="Partnership">Press & Wholesale</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Message</label>
+                        <textarea id="contactMessage" rows="4" required placeholder="How can our skincare experts assist you today?"
+                                  class="w-full px-4 py-3 bg-brand-50/50 dark:bg-zinc-950 border border-brand-200 dark:border-zinc-800 focus:outline-none focus:border-brand-500 text-xs rounded-sm transition-colors text-zinc-800 dark:text-zinc-200"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs uppercase tracking-widest font-semibold transition-all rounded-sm shadow-md">
+                        Send Message
+                    </button>
+                </form>
+
+                <!-- Google Maps Embed Card -->
+                <div class="bg-white dark:bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-sm border border-brand-100 dark:border-zinc-800 h-full flex flex-col justify-between">
+                    <div class="mb-4">
+                        <h3 class="font-serif-title text-xl text-zinc-900 dark:text-white">Find Us On The Map</h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">National Christian Life College</p>
+                    </div>
+                    <div class="w-full h-80 sm:h-96 rounded-lg overflow-hidden border border-brand-100 dark:border-zinc-800">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.302310434974!2d121.0961208105907!3d14.638773085793112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b9cbb86673b5%3A0x5ab26f9518810b2d!2sNational%20Christian%20Life%20College!5e0!3m2!1sen!2sph!4v1785822854062!5m2!1sen!2sph"
+                                class="w-full h-full border-0"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-brand-900 text-brand-100 dark:bg-zinc-950 dark:text-zinc-400 py-16 border-t border-brand-800 dark:border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+          
+            <div class="space-y-4 md:col-span-1">
+                <span class="text-2xl font-serif-title font-semibold text-white tracking-wide">
+                    UniqCare<span class="text-brand-400">.</span>
+                </span>
+                <p class="text-xs text-brand-200/80 dark:text-zinc-500 leading-relaxed">
+                    Pure botanical skincare designed to honor your natural skin barrier and simplify your daily ritual.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-widest text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-xs text-brand-200/80 dark:text-zinc-400">
+                    <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="#products" class="hover:text-white transition-colors">Shop All Formulas</a></li>
+                    <li><a href="#quiz" class="hover:text-white transition-colors">Skin Quiz</a></li>
+                    <li><a href="#about" class="hover:text-white transition-colors">Our Story</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-widest text-white mb-4">Customer Care</h4>
+                <ul class="space-y-2 text-xs text-brand-200/80 dark:text-zinc-400">
+                    <li><a href="mailto:barnedoreniel2@gmail.com" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-envelope text-[11px]"></i> barnedoreniel2@gmail.com</a></li>
+                    <li><a href="#contact" class="hover:text-white transition-colors">Shipping & Returns</a></li>
+                    <li><a href="#contact" class="hover:text-white transition-colors">Sustainability Guarantee</a></li>
+                    <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-widest text-white mb-4">Newsletter</h4>
+                <p class="text-xs text-brand-200/80 dark:text-zinc-500 mb-3">Subscribe to receive 15% off your first order and clean skincare tips.</p>
+                <form onsubmit="handleNewsletterSubmit(event)" class="flex">
+                    <input type="email" id="newsletterEmail" required placeholder="Enter email" class="px-3 py-2 bg-brand-800 dark:bg-zinc-900 text-xs text-white placeholder-brand-300 focus:outline-none w-full rounded-l-sm">
+                    <button type="submit" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold rounded-r-sm transition-colors">
+                        Join
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="pt-8 border-t border-brand-800 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-300/60 dark:text-zinc-600 gap-4">
+            <p>&copy; 2026 UniqCare Skincare. All rights reserved.</p>
+            <div class="flex space-x-6 text-sm">
+                <a href="#" class="hover:text-white transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="#" class="hover:text-white transition-colors" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Product Quick View Modal -->
+<div id="quickViewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden animate-fade-in">
+    <div class="bg-white dark:bg-zinc-900 max-w-2xl w-full rounded-xl shadow-2xl overflow-hidden relative border border-brand-100 dark:border-zinc-800">
+        <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-brand-50 dark:bg-zinc-800 text-zinc-500 flex items-center justify-center hover:bg-brand-100 dark:hover:bg-zinc-700 transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div id="quickViewContent" class="grid sm:grid-cols-2">
+            <!-- Javascript populates modal content -->
+        </div>
+    </div>
+</div>
+
+<!-- Cart Slide-over Drawer -->
+<div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+    <!-- Backdrop -->
+    <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity"></div>
+  
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+        <div class="w-screen max-w-md bg-white dark:bg-zinc-950 shadow-2xl flex flex-col border-l border-brand-100 dark:border-zinc-800">
+          
+            <!-- Drawer Header -->
+            <div class="p-6 border-b border-brand-100 dark:border-zinc-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-brand-500"></i>
+                    <h2 class="text-lg font-serif-title text-zinc-900 dark:text-white">Your Shopping Bag</h2>
+                </div>
+                <button onclick="toggleCartDrawer(false)" class="p-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Free Shipping Progress Tracker -->
+            <div class="px-6 py-3 bg-brand-50 dark:bg-zinc-900 border-b border-brand-100 dark:border-zinc-800">
+                <div id="shippingTracker" class="text-xs text-zinc-600 dark:text-zinc-400 mb-1.5 flex justify-between">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="w-full bg-brand-200 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="shippingBar" class="bg-brand-500 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Cart Footer / Checkout -->
+            <div class="p-6 border-t border-brand-100 dark:border-zinc-800 bg-brand-50/50 dark:bg-zinc-900/50 space-y-4">
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between text-zinc-500 dark:text-zinc-400">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal" class="font-medium text-zinc-900 dark:text-white">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-zinc-500 dark:text-zinc-400">
+                        <span>Estimated Shipping</span>
+                        <span id="cartShipping">Calculated at checkout</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-semibold text-zinc-900 dark:text-white pt-2 border-t border-brand-200 dark:border-zinc-800">
+                        <span>Total</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                </div>
+
+                <button onclick="checkout()" class="w-full py-4 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs font-semibold uppercase tracking-widest transition-all rounded-sm shadow-md">
+                    Proceed to Checkout
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Popup -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 max-w-xs bg-brand-900 dark:bg-brand-100 text-white dark:text-brand-900 px-5 py-3.5 rounded-lg shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="fa-solid fa-circle-check text-brand-300 dark:text-brand-700" id="toastIcon"></i>
+    <span id="toastMsg" class="text-xs font-medium">Item added to bag!</span>
+</div>
+
+<!-- JavaScript Logic -->
+<script>
+    // Comprehensive Skincare Products Data
+    const PRODUCTS = [
+        {
+            id: 'prod-1',
+            name: 'UniqCare Daily Moisturizing Lotion',
+            category: 'Moisturizer',
+            price: 68.00,
+            rating: 4.9,
+            reviews: 128,
+            image: 'product 1.jpg',
+            summary: 'Lightweight, non-greasy formula engineered to flood skin with all-day moisture and help restore the protective skin barrier.',
+            ingredients: 'Essential Ceramides, Hyaluronic Acid, Softening Glycerin',
+            howToUse: 'Smooth liberally onto the face, neck, or body as needed, ideally right after washing.',
+            goal: 'brightening',
+            badge: 'Best Seller'
+        },
+        {
+            id: 'prod-2',
+            name: 'UniqCare Hydra-Plump Lip Balm',
+            category: 'lip care',
+            price: 54.00,
+            rating: 4.8,
+            reviews: 94,
+            image: 'product 2.jpg',
+            summary: 'Instantly soothe and protect dry, chapped lips. The UniqCare Hydra-Plump Lip Balm delivers a weightless, comforting veil of moisture that seals in long-lasting hydration. Its conditioning formula absorbs quickly to soften texture and lock out harsh environmental stressors, leaving a natural, healthy finish.',
+            ingredients: 'Nourishing Shea Butter, Vitamin E, Protecting Beeswax, Jojoba Oil',
+            howToUse: 'Glide smoothly over bare lips whenever they feel dry. Wear alone for daily defense or layer beneath your favorite lip color for a smooth, hydrated base.',
+            goal: 'hydration',
+            badge: 'Award Winner'
+        },
+        {
+            id: 'prod-3',
+            name: 'UniqCare Skin Refreshing Sunscreen',
+            category: 'Sunscreen',
+            price: 38.00,
+            rating: 4.7,
+            reviews: 86,
+            image: 'product 3.jpg',
+            summary: 'Safeguard your skin with an ultra-light, refreshing layer of daily UV defense. The UniqCare Skin Refreshing Sunscreen delivers reliable broad-spectrum protection while deeply hydrating your skin. Its fluid, fast-absorbing texture glides on effortlessly, leaving a completely invisible, weightless finish with absolutely zero white cast or greasy residue.',
+            ingredients: 'Broad-Spectrum UV Filters, Soothing Aloe Vera, Hydrating Hyaluronic Acid',
+            howToUse: 'Apply generously and evenly across your face and neck as the final step of your morning skincare routine, at least 15 minutes before sun exposure. Reapply every two hours for continuous protection.',
+            goal: 'calming',
+            badge: 'New'
+        },
+        {
+            id: 'prod-4',
+            name: 'UniqCare Lavender Hush Beauty Bars',
+            category: 'SOAPS & CLEANSERS',
+            price: 76.00,
+            rating: 4.9,
+            reviews: 142,
+            image: 'product 4.jpg',
+            summary: 'Transform your daily shower into a soothing, spa-like escape. The UniqCare Lavender Hush Beauty Bar features a rich, creamy lather that gently cleanses while deeply conditioning your skin. Infused with a calming lavender aroma and moisturizing coconut milk extracts, it leaves your skin feeling incredibly soft, supple, and refreshed from head to toe.',
+            ingredients: 'Soothing Lavender Extract, Moisturizing Coconut Milk, Gentle Cleansing Base',
+            howToUse: 'Wet the beauty bar with warm water and work into a rich lather. Massage gently over your body or face, then rinse thoroughly. Suitable for daily use on all skin types.',
+            goal: 'Skin care',
+            badge: 'Top Rated'
+        },
+        {
+            id: 'prod-5',
+            name: 'UniqCare Collagen Firming & Hydrating Sheet Mask',
+            category: 'Treatments',
+            price: 42.00,
+            rating: 4.8,
+            reviews: 64,
+            image: 'product 5.jpg',
+            summary: 'Purifying clay treatment that tightens pores and calms redness.',
+            ingredients: 'Ceremonial Grade Matcha, White Kaolin Clay, Spirulina',
+            howToUse: 'Apply an even layer 1-2 times weekly for 10 minutes.',
+            goal: 'calming',
+            badge: null
+        },
+        {
+            id: 'prod-6',
+            name: 'UniqCare Lavender Mist Night Cream',
+            category: 'Moisturizers',
+            price: 62.00,
+            rating: 4.9,
+            reviews: 210,
+            image: 'product 6.jpg',
+            summary: 'Triple-stabilized Vitamin C paired with gentle AHA fruit enzymes.',
+            ingredients: '15% Vitamin C Complex, Lactic Acid, Kakadu Plum',
+            howToUse: 'Use 3 mornings per week followed by sunscreen.',
+            goal: 'brightening',
+            badge: 'Trending'
+        },
+        {
+            id: 'prod-7',
+            name: 'UniqCare Barrier Repair Velvet Cream',
+            category: 'Moisturizers',
+            price: 58.00,
+            rating: 4.8,
+            reviews: 115,
+            image: 'product 7.jpg',
+            summary: 'Rich barrier cream formulated to soothe stressed and dry skin.',
+            ingredients: '5 essential Ceramides, Centella Asiatica, Shea Butter',
+            howToUse: 'Massage onto dry areas as needed.',
+            goal: 'hydration',
+            badge: null
+        },
+        {
+            id: 'prod-8',
+            name: 'Peptide Renewal Eye Balm',
+            category: 'Treatments',
+            price: 48.00,
+            rating: 4.7,
+            reviews: 79,
+            image: 'product 8.jpg',
+            summary: 'Targeted peptide treatment to diminish puffiness and dark circles.',
+            ingredients: 'Signal Peptides, Green Coffee Extract, Hyaluronic Acid',
+            howToUse: 'Gently tap around eye orbital bone using ring finger.',
+            goal: 'antiaging',
+            badge: null
+        }
+    ];
+
+    // State Management
+    let cart = [];
+    let activeCategory = 'All';
+    let searchQuery = '';
+    let sortBy = 'featured';
+
+    // Initialize App on DOM Load
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        renderProducts();
+        renderCart();
+    });
+
+    function renderProducts() {
+        const container = document.getElementById('productsGrid');
+        const noResults = document.getElementById('noResultsState');
+
+        let filtered = PRODUCTS.filter(p => {
+            const matchesCat = activeCategory === 'All' || p.category === activeCategory;
+            const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                  p.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                  p.ingredients.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCat && matchesSearch;
+        });
+
+        // Sorting
+        if (sortBy === 'price-asc') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price-desc') {
+            filtered.sort((a, b) => b.price - a.price);
+        } else if (sortBy === 'rating') {
+            filtered.sort((a, b) => b.rating - a.rating);
+        }
+
+        if (filtered.length === 0) {
+            container.innerHTML = '';
+            noResults.classList.remove('hidden');
+            return;
+        }
+
+        noResults.classList.add('hidden');
+        container.innerHTML = filtered.map(p => `
+            <div class="product-card group flex flex-col bg-brand-50/40 dark:bg-zinc-950/40 border border-brand-100/80 dark:border-zinc-800/80 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="product-img-wrapper relative aspect-square bg-brand-100/50 dark:bg-zinc-900 overflow-hidden cursor-pointer" onclick="openQuickView('${p.id}')">
+                    <img src="${p.image}"
+                         onerror="this.src='https://placehold.co/600x600/eaddd3/553d33?text=${encodeURIComponent(p.name)}'"
+                         alt="${p.name}"
+                         class="w-full h-full object-cover">
+                    ${p.badge ? `<span class="absolute top-3 left-3 bg-brand-900/90 text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-sm">${p.badge}</span>` : ''}
+                  
+                    <button onclick="event.stopPropagation(); openQuickView('${p.id}')"
+                            class="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-white text-xs font-medium uppercase tracking-wider rounded-sm shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        Quick View
+                    </button>
+                </div>
+
+                <div class="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] text-zinc-400 mb-1">
+                            <span>${p.category}</span>
+                            <span class="flex items-center gap-1 text-amber-500 font-medium">
+                                <i class="fa-solid fa-star text-[10px]"></i> ${p.rating}
+                            </span>
+                        </div>
+                        <h3 onclick="openQuickView('${p.id}')" class="font-serif-title text-base font-medium text-zinc-900 dark:text-zinc-100 hover:text-brand-500 transition-colors cursor-pointer line-clamp-1">${p.name}</h3>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 line-clamp-2 font-light">${p.summary}</p>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-brand-100 dark:border-zinc-800/60 flex items-center justify-between">
+                        <span class="text-sm font-semibold text-zinc-900 dark:text-white">₱${p.price.toFixed(2)}</span>
+                        <button onclick="addToCart('${p.id}')"
+                                class="px-4 py-2 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs font-medium tracking-wider uppercase rounded-sm transition-colors">
+                            Add to Bag
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function setCategory(cat) {
+        activeCategory = cat;
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            if (btn.dataset.cat === cat) {
+                btn.className = "cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-brand-900 bg-brand-900 text-white dark:bg-white dark:text-brand-900 dark:border-white";
+            } else {
+                btn.className = "cat-btn px-5 py-2 text-xs font-medium uppercase tracking-wider rounded-full transition-all border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-500";
+            }
+        });
+        renderProducts();
+    }
+
+    function handleSearch() {
+        searchQuery = document.getElementById('searchInput').value;
+        renderProducts();
+    }
+
+    function handleSort() {
+        sortBy = document.getElementById('sortSelect').value;
+        renderProducts();
+    }
+
+    function resetFilters() {
+        searchQuery = '';
+        document.getElementById('searchInput').value = '';
+        sortBy = 'featured';
+        document.getElementById('sortSelect').value = 'featured';
+        setCategory('All');
+    }
+
+    function addToCart(productId, qty = 1) {
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) return;
+
+        const existingItem = cart.find(item => item.product.id === productId);
+        if (existingItem) {
+            existingItem.quantity += qty;
+        } else {
+            cart.push({ product, quantity: qty });
+        }
+
+        renderCart();
+        showToast(`Added ${product.name} to bag`);
+    }
+
+    function updateCartQty(productId, change) {
+        const item = cart.find(i => i.product.id === productId);
+        if (!item) return;
+
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            cart = cart.filter(i => i.product.id !== productId);
+        }
+        renderCart();
+    }
+
+    function removeFromCart(productId) {
+        cart = cart.filter(i => i.product.id !== productId);
+        renderCart();
+    }
+
+    function renderCart() {
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartBadge = document.getElementById('cartBadge');
+        const subtotalEl = document.getElementById('cartSubtotal');
+        const totalEl = document.getElementById('cartTotal');
+        const shippingBar = document.getElementById('shippingBar');
+        const shippingTracker = document.getElementById('shippingTracker');
+
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+        const freeShippingThreshold = 100.00;
+
+        // Update badge
+        if (totalItems > 0) {
+            cartBadge.textContent = totalItems;
+            cartBadge.classList.remove('hidden');
+        } else {
+            cartBadge.classList.add('hidden');
+        }
+
+        // Free shipping bar calculation
+        const percentage = Math.min(100, (subtotal / freeShippingThreshold) * 100);
+        shippingBar.style.width = `${percentage}%`;
+
+        if (subtotal >= freeShippingThreshold) {
+            shippingTracker.innerHTML = `<span><i class="fa-solid fa-truck-fast text-brand-500"></i> You've unlocked <strong>Free Standard Shipping</strong>!</span>`;
+        } else {
+            const diff = (freeShippingThreshold - subtotal).toFixed(2);
+            shippingTracker.innerHTML = `<span>Add <strong>₱${diff}</strong> more for Free Shipping</span><span>₱${subtotal.toFixed(2)}/₱100</span>`;
+        }
+
+        // Render Cart Items
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = `
+                <div class="text-center py-16 text-zinc-400">
+                    <i class="fa-solid fa-bag-shopping text-4xl mb-3 text-brand-200 dark:text-zinc-800"></i>
+                    <p class="font-serif-title text-base text-zinc-800 dark:text-zinc-200">Your bag is empty</p>
+                    <p class="text-xs mt-1">Explore our formulas and begin your skincare ritual.</p>
+                </div>
+            `;
+        } else {
+            cartItemsList.innerHTML = cart.map(item => `
+                <div class="flex gap-4 pb-4 border-b border-brand-100 dark:border-zinc-800/80">
+                    <img src="${item.product.image}"
+                         onerror="this.src='https://placehold.co/200x200/eaddd3/553d33?text=Product'"
+                         alt="${item.product.name}"
+                         class="w-16 h-16 object-cover rounded-md bg-brand-50 flex-shrink-0">
+                    <div class="flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h4 class="text-xs font-serif-title font-medium text-zinc-900 dark:text-zinc-100">${item.product.name}</h4>
+                                <button onclick="removeFromCart('${item.product.id}')" class="text-zinc-400 hover:text-red-500 transition-colors ml-2">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-zinc-400 mt-0.5">₱${item.product.price.toFixed(2)}</p>
+                        </div>
+                      
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-sm">
+                                <button onclick="updateCartQty('${item.product.id}', -1)" class="px-2 py-0.5 text-zinc-500 hover:text-brand-500 text-xs">-</button>
+                                <span class="px-2 py-0.5 text-xs text-zinc-800 dark:text-zinc-200">${item.quantity}</span>
+                                <button onclick="updateCartQty('${item.product.id}', 1)" class="px-2 py-0.5 text-zinc-500 hover:text-brand-500 text-xs">+</button>
+                            </div>
+                            <span class="text-xs font-semibold text-zinc-900 dark:text-white">₱${(item.product.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        subtotalEl.textContent = `₱${subtotal.toFixed(2)}`;
+        totalEl.textContent = `₱${subtotal.toFixed(2)}`;
+    }
+
+    function toggleCartDrawer(open) {
+        const drawer = document.getElementById('cartDrawer');
+        if (open) {
+            drawer.classList.remove('hidden');
+        } else {
+            drawer.classList.add('hidden');
+        }
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            showToast("Your bag is empty!");
+            return;
+        }
+        showToast("Redirecting to secure checkout...");
+    }
+
+    function openQuickView(productId) {
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) return;
+
+        const modal = document.getElementById('quickViewModal');
+        const content = document.getElementById('quickViewContent');
+
+        content.innerHTML = `
+            <div class="aspect-square bg-brand-50 dark:bg-zinc-950">
+                <img src="${product.image}"
+                     onerror="this.src='https://placehold.co/600x600/eaddd3/553d33?text=${encodeURIComponent(product.name)}'"
+                     alt="${product.name}"
+                     class="w-full h-full object-cover">
+            </div>
+            <div class="p-6 sm:p-8 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <span class="text-[10px] uppercase tracking-widest text-brand-600 dark:text-brand-300 font-semibold">${product.category}</span>
+                    <h3 class="text-2xl font-serif-title font-medium text-zinc-900 dark:text-white">${product.name}</h3>
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> ${product.rating}</span>
+                        <span class="text-zinc-400">(${product.reviews} reviews)</span>
+                    </div>
+                    <p class="text-xl font-semibold text-zinc-900 dark:text-white">₱${product.price.toFixed(2)}</p>
+                    <p class="text-xs text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">${product.summary}</p>
+                  
+                    <div class="space-y-2 pt-2 text-xs">
+                        <p><strong>Key Ingredients:</strong> <span class="text-zinc-500 dark:text-zinc-400">${product.ingredients}</span></p>
+                        <p><strong>How to Use:</strong> <span class="text-zinc-500 dark:text-zinc-400">${product.howToUse}</span></p>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-brand-100 dark:border-zinc-800 mt-6">
+                    <button onclick="addToCart('${product.id}'); closeQuickView();" class="w-full py-3.5 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs font-semibold uppercase tracking-widest transition-all rounded-sm">
+                        Add to Bag — ₱${product.price.toFixed(2)}
+                    </button>
+                </div>
+            </div>
+        `;
+
+        modal.classList.remove('hidden');
+    }
+
+    function closeQuickView() {
+        document.getElementById('quickViewModal').classList.add('hidden');
+    }
+
+    function selectSkinGoal(goal) {
+        document.querySelectorAll('.quiz-btn').forEach(btn => {
+            if (btn.dataset.goal === goal) {
+                btn.classList.add('border-brand-500', 'ring-2', 'ring-brand-500/20');
+            } else {
+                btn.classList.remove('border-brand-500', 'ring-2', 'ring-brand-500/20');
+            }
+        });
+
+        const matchingProducts = PRODUCTS.filter(p => p.goal === goal || p.category === 'Cleansers');
+        const cleanser = PRODUCTS.find(p => p.category === 'Cleansers') || PRODUCTS[2];
+        const serum = PRODUCTS.find(p => p.goal === goal && p.category === 'Serums') || PRODUCTS[0];
+        const moisturizer = PRODUCTS.find(p => p.goal === goal && p.category === 'Moisturizers') || PRODUCTS[1];
+
+        const routine = [cleanser, serum, moisturizer];
+        const totalPrice = routine.reduce((s, p) => s + p.price, 0);
+
+        const resultContainer = document.getElementById('quizResult');
+        const contentContainer = document.getElementById('quizContent');
+
+        contentContainer.innerHTML = `
+            <div>
+                <span class="text-[10px] uppercase tracking-widest text-brand-600 dark:text-brand-300 font-semibold">Recommended Regimen</span>
+                <h3 class="text-2xl font-serif-title text-zinc-900 dark:text-white mt-1">Your Customized 3-Step Ritual</h3>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Designed specifically to address ${goal} for glowing, healthy skin barrier.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                ${routine.map((item, idx) => `
+                    <div class="p-4 bg-brand-50/50 dark:bg-zinc-900 border border-brand-100 dark:border-zinc-800 rounded-md flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-500 tracking-wider uppercase">Step ${idx + 1}: ${idx === 0 ? 'Cleanse' : idx === 1 ? 'Treat' : 'Nourish'}</span>
+                            <h4 class="font-serif-title text-sm font-medium text-zinc-900 dark:text-white mt-1">${item.name}</h4>
+                            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2">${item.summary}</p>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-brand-100 dark:border-zinc-800 flex justify-between items-center text-xs">
+                            <span class="font-semibold text-zinc-900 dark:text-white">₱${item.price.toFixed(2)}</span>
+                            <span class="text-[10px] text-brand-600 dark:text-brand-300">${item.category}</span>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-brand-100 dark:border-zinc-800 gap-4">
+                <div>
+                    <p class="text-xs text-zinc-400">Complete Set Price (3 Full-Size Items)</p>
+                    <p class="text-lg font-serif-title font-semibold text-zinc-900 dark:text-white">₱${totalPrice.toFixed(2)}</p>
+                </div>
+                <button onclick="addBundleToCart(['${routine[0].id}', '${routine[1].id}', '${routine[2].id}'])" class="w-full sm:w-auto px-6 py-3 bg-brand-900 dark:bg-brand-100 hover:bg-brand-800 dark:hover:bg-white text-white dark:text-brand-900 text-xs font-semibold uppercase tracking-widest rounded-sm transition-all">
+                    Add Entire Set to Bag
+                </button>
+            </div>
+        `;
+
+        resultContainer.classList.remove('hidden');
+    }
+
+    function closeQuizResult() {
+        document.getElementById('quizResult').classList.add('hidden');
+    }
+
+    function addBundleToCart(productIds) {
+        productIds.forEach(id => addToCart(id, 1));
+        showToast("Added full skincare regimen to bag!");
+        toggleCartDrawer(true);
+    }
+
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+        const icon = document.getElementById('themeIcon');
+        if (isDark) {
+            icon.className = 'fa-solid fa-sun text-amber-400 text-lg';
+        } else {
+            icon.className = 'fa-solid fa-moon text-lg';
+        }
+    }
+
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const msg = document.getElementById('toastMsg');
+      
+        msg.textContent = message;
+        toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }, 3000);
+    }
+
+    function handleContactSubmit(event) {
+        event.preventDefault();
+        const name = document.getElementById('contactName').value;
+        showToast(`Thank you, ${name}! Your message has been received.`);
+        event.target.reset();
+    }
+
+    function handleNewsletterSubmit(event) {
+        event.preventDefault();
+        showToast("Welcome to UniqCare! Your 15% discount code is WELCOME15");
+        event.target.reset();
+    }
+</script>
+</body>
+</html> 
